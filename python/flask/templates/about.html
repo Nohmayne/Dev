@@ -1,0 +1,21 @@
+{% extends "template.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% block head %}
+	{{ super() }}
+	<title>{% block title %}About{% endblock %}</title>
+	{% endblock %}
+</head>
+<body>
+	{% block content %}
+	<h2>About the Creator</h2>
+	<p>
+		Caden Henrich is a high-school student in Arlington, Virginia who is fascinated by computer science.
+		This fascination has led to many graphics-based programming projects, most of which are now hosted
+		on this site. Caden plans to study computer science and game design in college, and eventually become 
+		a game developer.
+	</p>
+	{% endblock %}
+</body>
+</html>

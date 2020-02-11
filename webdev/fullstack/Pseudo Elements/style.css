@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+  color: white;
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 2rem;
+}
+
+p::before {
+  content: open-quote;
+  font-size: 2rem;
+}
+
+p::after {
+  content: close-quote;
+  font-size: 2rem;
+}
+
+a {
+  color: #f52;
+  text-decoration: none;
+}
+
+a[href^="http"]::after {
+  content: " (sec)";
+}

@@ -1,0 +1,96 @@
+html, body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	width: 100%;
+	font-family: 'Georgia', serif, 'times new roman';
+	text-align: left;
+	background-color: #efeeee;
+}
+
+#title {
+	color: crimson;
+	font-family: 'Raleway', sans-serif;
+}
+
+.nav {
+	font-size: 1vw;
+	width: 10%;
+	height: 100%;
+	background-color: #eae9e9;
+	display: inline-block;
+	vertical-align: top;
+	position: fixed;
+	box-shadow: 8px 0px 18px rgba(209, 205, 199, 0.5);
+	text-align: left;
+}
+
+.titlebar {
+	margin: 0px;
+}
+
+.pagetitle {
+	margin: 0px;
+	margin-left: 10px;
+	color: #444;
+	font-family: 'Raleway', sans-serif;
+	text-align: left;
+}
+
+.pages {
+	margin: 3px;
+	padding: 0px;
+	color: #444;
+}
+
+.pagelinks {
+	margin: 5px;
+	padding: 0px;
+	list-style-position: inside;
+	list-style-type: "|-  ";
+	
+}
+
+a {
+	color: #444;
+	font-family: 'Raleway', sans-serif;
+	text-align: left;
+}
+
+a:link {
+	text-decoration: none;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a:active {
+	font-weight: bold;
+}
+
+a#inlink {
+	color: crimson;
+	font-family: 'Georgia', serif, 'times new roman';
+	border-bottom: 1px crimson dotted;
+}
+
+.main {
+	font-size: 1vw;
+	margin-left: 12%;
+	width: 50%;
+	height: 80%;
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+}
+
+h2, h3 {
+	font-family: 'Raleway', sans-serif;
+	text-align: left;
+}
+
+p {
+	color: #444;
+	text-align: left;
+}

@@ -1,0 +1,24 @@
+{% extends "template.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% block head %}
+	{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/mathquill.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/medit.css') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="{{ url_for('static', filename='js/mathquill.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/medit.js') }}" defer></script>
+	<title>{% block title %}M-Edit{% endblock %}</title>
+	{% endblock %}
+</head>
+<body>
+	{% block content %}
+	<h3>M-Edit</h3>
+	<p>Enter math below!</p>
+	<div class="mathwrapper">
+		<p id="mField"></p>
+	</div>
+	{% endblock %}
+</body>
+</html>

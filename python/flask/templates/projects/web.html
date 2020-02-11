@@ -1,0 +1,16 @@
+{% extends "template.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+	{% block head %}
+	{{ super() }}
+	<script src="{{ url_for('static', filename='js/web.js') }}"></script>
+	<title>{% block title %}Web{% endblock %}</title>
+	{% endblock %}
+</head>
+<body>
+	{% block content %}
+	<canvas id="webcanv" width=800 height=600></canvas>
+	{% endblock %}
+</body>
+</html>

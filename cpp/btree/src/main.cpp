@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <stdlib.h>
 #include <time.h>
@@ -5,7 +6,7 @@
 
 int main()
 {
-  sf::RenderWindow window(sf::VideoMode(1000, 1000), "Brownian Tree");
+  sf::RenderWindow window(sf::VideoMode(800, 800), "Brownian Tree");
 
   //window.setFramerateLimit(2);
 

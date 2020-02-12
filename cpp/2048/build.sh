@@ -1,4 +1,4 @@
 #!/bin/sh
 
-g++ src/*.cpp include/*.h -o 2048 -lsfml-graphics -lsfml-window -lsfml-system
+g++ -o 2048 src/*.cpp include/*.h -lsfml-graphics -lsfml-window -lsfml-system
 ./2048

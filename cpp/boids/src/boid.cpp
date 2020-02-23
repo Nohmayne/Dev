@@ -35,6 +35,8 @@ public:
   {
     m_velocity += m_acceleration;
     m_position += m_velocity;
+
+    m_shape.setPosition(m_position);
   }
 private:
   virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const

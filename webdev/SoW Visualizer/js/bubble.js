@@ -7,13 +7,13 @@ class Bubble {
     }
 
     show() {
-        fill(255, 255, 255, 25);
-        stroke(180, 55, 100);
+        fill(255, 255, 255, 200);
+        stroke(50, 75, 150);
         strokeWeight(4);
         circle(this.x, this.y, this.r);
 
         noStroke();
-        fill(180, 55, 100);
+        fill(50, 75, 150);
         textSize(this.r / (PI * 1.5));
         textAlign(CENTER, CENTER);
         text(this.name, this.x, this.y);

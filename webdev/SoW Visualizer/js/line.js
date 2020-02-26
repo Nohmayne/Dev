@@ -1,6 +1,6 @@
 class Line {
     constructor(bubble1, bubble2, width) {
-        this.color = color(180, 55, 100);
+        this.color = color(50, 75, 150);
         this.selected = false;
         
         this.bubble1 = bubble1;

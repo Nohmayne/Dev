@@ -7,45 +7,63 @@
 /* Shader compilation */
 static unsigned int CompileShader(unsigned int type, const std::string& source)
 {
+    // Create an empty shader
     unsigned int id = glCreateShader(type);
+
+    // Get the source code as a const char*
     const char* src = source.c_str();
+
+    // Assign the source to the shader
     glShaderSource(id, 1, &src, nullptr);
+
+    // Compile the shader
     glCompileShader(id);
 
+    // Test to see if the result of the compilation is good
     int result;
     glGetShaderiv(id, GL_COMPILE_STATUS, &result);
     if (result == GL_FALSE)
     {
+        // if it isn't, print a message
         int length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
         char* message = (char*)alloca(length * sizeof(char));
         glGetShaderInfoLog(id, length, &length, message);
         std::cout << "Failed to compile shader" << std::endl;
         std::cout << message << std::endl;
+
+        // delete the bad shader
         glDeleteShader(id);
         return 0;
     }
 
+    // Return the shader's ID
     return id;
 }
 
-/* Create shaders off of source code */
+/* Create program (vert and frag) off of source code */
 static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
 {
+    // Instantiate variables
     unsigned int program = glCreateProgram();
     unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
     unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
+    // Attach both shaders to the shader program
     glAttachShader(program, vs);
     glAttachShader(program, fs);
 
+    // Link them together
     glLinkProgram(program);
 
+    // Validate it, i.e. make sure the shaders can execute
     glValidateProgram(program);
 
+    // Delete the now unused shaders (we have a program now so they're unnecessary)
     glDeleteShader(vs);
     glDeleteShader(fs);
 
+    // Return the program's ID
     return program;
 }
 
@@ -74,6 +92,8 @@ int main(void)
         /* Problem: glewInit failed, something is seriously wrong. */
         fprintf(stderr, "Error: GLEW init failed");
     }
+
+    std::cout << glGetString(GL_VERSION) << std::endl;
 
     /* Triangle array */
     float positions[6] = {

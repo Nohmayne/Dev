@@ -6,10 +6,7 @@ let viewing = false;
 let analyses = [
     "The connection Shinji and Hatsue share in The Sound of Waves reveals throughout the novel Shinji's inner desire to explore what life has to offer in spite of his initial simple outlook. Shinji's new knowledge after learning more about Hatsue's origins from Jukichi expands his view of the world, and prompts him to start wondering about the world outside of Uta-jima. This also expands the scope of the novel, making it not just about love, but about Shinji's coming of age. Shinji's peaceful feeling in the hands of mother nature when going to meet Hatsue highlights a parallel between Hatsue and nature, underscoring how both lovers feel it is only fate that they end up together. The setting of their meetings in nature and the further \"approval\" of outside forces when the generator turns back on further confirms this link.",
     "Yasuo's interactions with Shinji often end up working against him, instead working in Shinji's favor, a bit of irony used to underscore the virtues of honesty and hard work by contrasting them against the poor results of Yasuo's actions. Shinji's virtue is further demonstrated when he makes amends with Yasuo in spite of their direct competition over Hatsue. Yasuo is one of the very few true \"villains\" in the story, making the effect even greater when they ultimately bury the hatchet. Shinji's silent yet hard work abord the Utajima-maru epitomizes his virtuosness. On the other hand, Yasuo's laziness is made even clearer during his stay on the Utajima-maru, and the contrast built between his and Shinji's personalities makes it clear who will eventually marry Hatsue.",
-    "",
-    "test4",
-    "test5",
-    "test6"
+    ""
 ];
 
 function setup() {
@@ -22,10 +19,8 @@ function setup() {
     bubbles.push(new Bubble(width / 2 + 150, height / 2 - 185, 80, "Terukichi"));
     
     lines = [];
-    for (let i = 0; i < bubbles.length - 1; i++) {
-        for (let j = i + 1; j < bubbles.length; j++) {
-            lines.push(new Line(bubbles[i], bubbles[j], 5));
-        }
+    for (let i = 1; i < bubbles.length; i++) { 
+            lines.push(new Line(bubbles[0], bubbles[i], 5));
     }
 }
 

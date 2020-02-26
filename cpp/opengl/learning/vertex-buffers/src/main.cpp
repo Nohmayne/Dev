@@ -3,49 +3,121 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+// Struct for returning two vars for shader code
+struct ShaderProgramSource
+{
+    std::string VertexSource;
+    std::string FragmentSource;
+};
+
+// Parse shaders from file
+static ShaderProgramSource ParseShader(const std::string& filepath)
+{
+    // Access the file at filepath
+    std::ifstream stream(filepath);
+
+    // Set up an enum to differentiate shader types
+    enum class ShaderType
+    {
+        NONE = -1, VERTEX = 0, FRAGMENT = 1
+    };
+
+    // Go line by line
+    std::string line; // Holds the value of the current line
+    std::stringstream ss[2]; // Holds the info about both shaders
+    ShaderType type = ShaderType::NONE; // Holds the type of the current shader
+    while (getline(stream, line))
+    {
+        // Check if the current line is defining a new shader
+        if (line.find("#shader") != std::string::npos)
+        {
+            // Set the type based on the type of shader defined
+            if (line.find("vertex") != std::string::npos)
+            {
+                // set mode to vertex
+                type = ShaderType::VERTEX;
+            }
+            else if (line.find("fragment") != std::string::npos)
+            {
+                // set mode to fragment
+                type = ShaderType::FRAGMENT;
+            }
+        }
+        else
+        {
+            // If it's not defining a new shader, push the line to the ss with a \n char
+            ss[(int)type] << line << '\n';
+        }
+    }
+
+    // Return a struct with the two shaders as variables
+    return {ss[0].str(), ss[1].str()};
+}
 
 /* Shader compilation */
 static unsigned int CompileShader(unsigned int type, const std::string& source)
 {
+    // Create an empty shader
     unsigned int id = glCreateShader(type);
+
+    // Get the source code as a const char*
     const char* src = source.c_str();
+
+    // Assign the source to the shader
     glShaderSource(id, 1, &src, nullptr);
+
+    // Compile the shader
     glCompileShader(id);
 
+    // Test to see if the result of the compilation is good
     int result;
     glGetShaderiv(id, GL_COMPILE_STATUS, &result);
     if (result == GL_FALSE)
     {
+        // if it isn't, print a message
         int length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
         char* message = (char*)alloca(length * sizeof(char));
         glGetShaderInfoLog(id, length, &length, message);
         std::cout << "Failed to compile shader" << std::endl;
         std::cout << message << std::endl;
+
+        // delete the bad shader
         glDeleteShader(id);
         return 0;
     }
 
+    // Return the shader's ID
     return id;
 }
 
-/* Create shaders off of source code */
+/* Create program (vert and frag) off of source code */
 static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
 {
+    // Instantiate variables
     unsigned int program = glCreateProgram();
     unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
     unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
+    // Attach both shaders to the shader program
     glAttachShader(program, vs);
     glAttachShader(program, fs);
 
+    // Link them together
     glLinkProgram(program);
 
+    // Validate it, i.e. make sure the shaders can execute
     glValidateProgram(program);
 
+    // Delete the now unused shaders (we have a program now so they're unnecessary)
     glDeleteShader(vs);
     glDeleteShader(fs);
 
+    // Return the program's ID
     return program;
 }
 
@@ -75,6 +147,8 @@ int main(void)
         fprintf(stderr, "Error: GLEW init failed");
     }
 
+    std::cout << glGetString(GL_VERSION) << std::endl;
+
     /* Triangle array */
     float positions[6] = {
         -0.5f, -0.5f,
@@ -98,26 +172,8 @@ int main(void)
     /* Enable the vertex attribute */
     glEnableVertexAttribArray(0);
 
-    std::string vertexShader = 
-        "#version 330 core\n"
-        "\n"
-        "layout(location = 0) in vec4 position;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "    gl_Position = position;\n"
-        "}\n";
-    std::string fragmentShader = 
-        "#version 330 core\n"
-        "\n"
-        "layout(location = 0) out vec4 color;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "    color = vec4(1.0, 0.0, 0.0, 1.0);\n" 
-        "}\n";
-
-    unsigned int shader = CreateShader(vertexShader, fragmentShader);
+    ShaderProgramSource source = ParseShader("res/shaders/Basic.shader");
+    unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
     glUseProgram(shader);
 
     /* Loop until the user closes the window */

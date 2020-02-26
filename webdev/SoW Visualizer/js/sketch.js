@@ -6,9 +6,20 @@ let bg;
 
 let analyses = [
     "The connection Shinji and Hatsue share in The Sound of Waves reveals throughout the novel Shinji's inner desire to explore what life has to offer in spite of his initial simple outlook. Shinji's new knowledge after learning more about Hatsue's origins from Jukichi expands his view of the world, and prompts him to start wondering about the world outside of Uta-jima. This also expands the scope of the novel, making it not just about love, but about Shinji's coming of age. Shinji's peaceful feeling in the hands of mother nature when going to meet Hatsue highlights a parallel between Hatsue and nature, underscoring how both lovers feel it is only fate that they end up together. The setting of their meetings in nature and the further \"approval\" of outside forces when the generator turns back on further confirms this link.",
+<<<<<<< HEAD
     "Yasuo's interactions with Shinji often end up working against him, instead working in Shinji's favor, a bit of irony used to underscore the virtues of honesty and hard work by contrasting them against the poor results of Yasuo's actions. Shinji's virtue is further demonstrated when he makes amends with Yasuo in spite of their direct competition over Hatsue. Yasuo is one of the very few true \"villains\" in the story, making the effect even greater when they ultimately bury the hatchet. Abord the Utajima-maru, Shinji's silent yet hard work epitomizes his virtuosness, while Yasuo's laziness is made even clearer. The contrast built between his and Shinji's personalities makes it clear who will eventually marry Hatsue.",
     "Terukichi consistently separating Hatsue and Shinji throughout most of The Sound of Waves creates a barrier to test both Shinji's resolve and his love for Hatsue. Their persistent attempts to communicate and meet against his will show the strength of their connection, which highlights Shinji's hidden desire for more than what he has, in spite of his simple outlook on life. Uncle Teru also serves as a force to push Yasuo and Shinji further apart in their behavior, exacerbating their differences to the point where Yasuo's true personality of laziness and apathy becomes known to everyone. Taking in both Shinji and Yasuo as apprentices on his ship shows Terukichi's consideration of his daughters feelings in spite of his repeated denial of her wishes to see Shinji. The apprenticeship for Shinji is not necessarily a chance to win Terukichi's respect and Hatsue's hand, but also a chance to see the world outside of Uta-jima. Although he does find joy in traveling and seeing sights, ultimately it is Shinji's showing of bravery, conviction, and \"get up and go\" attitude that makes the trip significant.",
     "When Chiyoko asks Shinji if she is truly ugly, Shinji's affirmation of her looks and her reaction show how Shinji drives Chiyoko's actions and feelings. Earlier in the novel, when Chiyoko sees Shinji with Hatsue, their bond amplifies her jealousy, causing her to start the rumors about them, which in turn affects most of the rest of the plot of the novel. Chiyoko's jealousy is different from Yasuo's in that hers results from insecurity, and Yasuo's results from boastfulness and pride. This difference leaves Chiyoko with the opportunity to resolve her guilt about the rumors, an opportunity Yasuo never has. In an indirect sense, Chiyoko's actions strengthen the bond between Shinji and Hatsue due to the obstacles they now have to overcome. Having been complemented by Shinji and learning of her true beauty, Chiyoko's plan for redemption also intends to help Shinji and Hatsue be together, showing how Chiyoko has grown out of her insecurities. Although Shinji doesn't think much of her return, Chiyoko's actions have driven many significant portions of the plot, and the novel would not be the same without her."
+=======
+    "Yasuo's interactions with Shinji often end up working against him, instead working in Shinji's favor, a bit of irony used to underscore the virtues of honesty and hard work by contrasting them against the poor results of Yasuo's actions. Shinji's virtue is further demonstrated when he makes amends with Yasuo in spite of their direct competition over Hatsue. Yasuo is one of the very few true \"villains\" in the story, making the effect even greater when they ultimately bury the hatchet. Shinji's silent yet hard work abord the Utajima-maru epitomizes his virtuosness. On the other hand, Yasuo's laziness is made even clearer during his stay on the Utajima-maru, and the contrast built between his and Shinji's personalities makes it clear who will eventually marry Hatsue.",
+<<<<<<< HEAD
+    ""
+=======
+    "Terukichi consistently separating Hatsue and Shinji throughout most of The Sound of Waves creates a barrier to test both Shinji's resolve and his love for Hatsue. Their persistent attempts to communicate and meet against his will show the strength of their connection, which highlights Shinji's hidden desire for more than what he has, in spite of his simple outlook on life. Uncle Teru also serves as a force to push Yasuo and Shinji further apart in their behavior, exacerbating their differences to the point where Yasuo's true personality of laziness and apathy becomes known to everyone. Taking in both Shinji and Yasuo as apprentices on his ship shows Terukichi's consideration of his daughters feelings in spite of his repeated denial of her wishes to see Shinji. The apprenticeship for Shinji is not necessarily a chance to win Terukichi's respect and Hatsue's hand, but also a chance to see the world outside of Uta-jima. Although he does find joy in traveling and seeing sights, ultimately it is Shinji's showing of bravery, conviction, and \"get up and go\" attitude that makes the trip significant.",
+    "Test2",
+    "Test3"
+>>>>>>> 8f2f18171e9a65664458c7dccba63fc414b05398
+>>>>>>> 54d68aa7b2841f09fd3dd65f77574d8a8291efde
 ];
 
 function preload() {
@@ -26,8 +37,13 @@ function setup() {
     bubbles.push(new Bubble(width / 2 - 175, height / 2 - 250, 160, "Chiyoko"));
 
     lines = [];
+<<<<<<< HEAD
+    for (let i = 1; i < bubbles.length; i++) { 
+            lines.push(new Line(bubbles[0], bubbles[i], 5));
+=======
     for (let i = 1; i < bubbles.length; i++) {
         lines.push(new Line(bubbles[0], bubbles[i], 4));
+>>>>>>> 8f2f18171e9a65664458c7dccba63fc414b05398
     }
 }
 

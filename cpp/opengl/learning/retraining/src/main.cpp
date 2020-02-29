@@ -1,46 +1,45 @@
-#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <stdio.h>
 
 int main(void)
 {
-    GLFWwindow* window;
+    GLFWwindow *window;
 
     if (!glfwInit())
-    {
-        std::cout << "Error initializing GLFW; Something is seriously wrong" << std::endl;
         return -1;
-    }
 
-    window = glfwCreateWindow(800, 600, "Test", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "Title", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
-        std::cout << "Error initializing GLFWwindow; Something is seriously wrong" << std::endl;
         return -1;
     }
 
     glfwMakeContextCurrent(window);
 
-    if (glewInit() != GLEW_OK)
+    GLenum err = glewInit();
+    if (GLEW_OK != err)
     {
-        std::cout << "Error initializing GLEW; Something is seriously wrong" << std::endl;
+        fprintf(stderr, "ERROR: %s\n", glewGetErrorString(err));
+        glfwTerminate();
+        return -1;
     }
 
-    float locations[] = 
+    float positions[] =
     {
-        -0.5f, -0.5f,
-        0.5f, -0.5f,
-        0.0f, 0.5f
+        -0.5, -0.5,
+         0.5, -0.5,
+         0.0,  0.5
     };
 
-    unsigned int verts;
-    glGenBuffers(1, &verts);
-    glBindBuffer(GL_ARRAY_BUFFER, verts);
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), &locations, GL_STATIC_DRAW);
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), nullptr);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
     while (!glfwWindowShouldClose(window))
     {

@@ -225,7 +225,7 @@ int main(void)
     ASSERT(location != -1);
 
     /* Set the uniform's values */
-    glUniform4f(location, 0.2f, 0.3f, 0.8f, 1.0f);
+    glUniform4f(location, 0.2f, 0.3f, 0.3f, 1.0f);
 
     float r = 0.2f;
     float increment = 0.05f;
@@ -239,7 +239,7 @@ int main(void)
         /* Issue a draw call for the buffer */
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
-        glUniform4f(location, r, 0.3f, 0.8f, 1.0f);
+        glUniform4f(location, r, 0.3f, 0.3f, 1.0f);
 
         if (r > 1.0f)
             increment = -0.05f;

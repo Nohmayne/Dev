@@ -25,6 +25,8 @@ static ShaderProgramSource parseShader(const std::string& filepath)
     std::stringstream ss[2];
     ShaderType type = ShaderType::NONE;
 
+    // Testing git integration
+
     while (std::getline(file, line))
     {
         if (line.find("#shader") != std::string::npos)
@@ -59,7 +61,7 @@ static unsigned int compileShader(unsigned int type, const std::string& source)
     {
         int length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-        
+
         char* message = (char*)alloca(length * sizeof(char));
         glGetShaderInfoLog(id, length, &length, message);
 

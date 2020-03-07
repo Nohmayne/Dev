@@ -25,8 +25,6 @@ static ShaderProgramSource parseShader(const std::string& filepath)
     std::stringstream ss[2];
     ShaderType type = ShaderType::NONE;
 
-    // Testing git integration
-
     while (std::getline(file, line))
     {
         if (line.find("#shader") != std::string::npos)

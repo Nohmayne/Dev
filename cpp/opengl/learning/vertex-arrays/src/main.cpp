@@ -130,6 +130,13 @@ int main(void)
 	return -1;
     }
 
+    // Set the current OpenGL version to 3.3
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
+    // Set the current OpenGL profile to "core"
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     glfwMakeContextCurrent(window);
 
     GLenum err = glewInit();
@@ -157,6 +164,10 @@ int main(void)
 	2, 3, 0
     };
 
+    unsigned int vao;
+    GLCall(glGenVertexArrays(1, &vao));
+    GLCall(glBindVertexArray(vao));
+
     unsigned int vbo;
     GLCall(glGenBuffers(1, &vbo));
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, vbo));
@@ -180,9 +191,19 @@ int main(void)
 
     GLCall(glUniform4f(location, 0.2f, 0.3f, 0.8f, 1.0f));
 
+    GLCall(glBindVertexArray(0));
+    GLCall(glUseProgram(0));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
     while (!glfwWindowShouldClose(window))
     {
 	GLCall(glClear(GL_COLOR_BUFFER_BIT));
+
+	GLCall(glUseProgram(shader));
+	GLCall(glUniform4f(location, 0.2f, 0.3f, 0.8f, 1.0f));
+
+	GLCall(glBindVertexArray(vao));
 
 	GLCall(glDrawElements(GL_TRIANGLES, 2 * 3, GL_UNSIGNED_INT, nullptr));
 

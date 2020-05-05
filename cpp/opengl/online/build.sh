@@ -1,3 +1,3 @@
 #!/bin/sh
 
-g++ -o main src/*.cpp -lglfw -lGLEW -lGLU -lGL && gdb main
+g++ -o main src/*.cc -lglfw -lGLEW -lGLU -lGL && gdb main

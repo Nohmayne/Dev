@@ -5,6 +5,9 @@
 #include <math.h>
 #include "Shader.hh"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 // Callback function for window resizing
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
@@ -62,22 +65,77 @@ int main(void)
 
     // Define the vertex matrix
     float vertices[] = {
-	-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
-	 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,
-	 0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f
-	// -0.5f,  0.5f, 0.0f
+	-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+	 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+	 0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
+	-0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f
     };
 
     // Define the two triangles using vertices
     unsigned int indices[] = {
 	0, 1, 2,
-	// 2, 3, 0
+	2, 3, 0
     };
+
+    // Set up texture object
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    // Define texture wrapping and scaling
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Set up stb_image
+    int width, height, numChannels;
+    unsigned char* data = stbi_load("res/images/beans.png", &width, &height, &numChannels, 0);
+    if (data)
+    {
+	// Generate the texture
+    	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    	glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+	std::cout << "Error loading texture" << std::endl;
+    }
+    stbi_image_free(data);
+
+    unsigned int smileTexture;
+    glGenTextures(1, &smileTexture);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, smileTexture);
+
+    // Define texture wrapping and scaling
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     // Set up a vertex array object to store vertex data
     unsigned int vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
+
+    // Set up stb_image
+    stbi_set_flip_vertically_on_load(true);
+    data = stbi_load("res/images/smile.png", &width, &height, &numChannels, 0);
+    if (data)
+    {
+	// Generate the texture
+    	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    	glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+	std::cout << "Error loading texture 2" << std::endl;
+    }
+    stbi_image_free(data);
 
     // Construct the vertex buffer objects
     unsigned int vbo;
@@ -92,15 +150,20 @@ int main(void)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // Link vertex attributes
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
     // Compile and use the shader from file
-    Shader shader("res/shaders/individual.glsl");
+    Shader shader("res/shaders/textures.glsl");
     shader.use();
+    shader.setInt("mTexture1", 0);
+    shader.setInt("mTexture2", 1);
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
@@ -117,6 +180,11 @@ int main(void)
 
 	// Use the proper stuff
 	shader.use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, smileTexture);
+
 	glBindVertexArray(vao);
 
 	// Draw the shape

@@ -3,7 +3,12 @@
 #include <stdio.h>
 #include <iostream>
 #include <math.h>
+
 #include "Shader.hh"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -32,13 +37,17 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
+
+    glfwWindowHint(GLFW_SAMPLES, 16);
+    glEnable(GL_MULTISAMPLE);
 
     // Window size vars
-    const unsigned int windowWidth = 800;
-    const unsigned int windowHeight = 600;
+    const unsigned int windowWidth = 1280;
+    const unsigned int windowHeight = 720;
 
     // Create a windowed mode window and its OpenGL context
-    window = glfwCreateWindow(windowWidth, windowHeight, "learnopengl.com", NULL, NULL);
+    window = glfwCreateWindow(windowWidth, windowHeight, "OpenGL", NULL, NULL);
     if (!window)
     {
 	glfwTerminate();
@@ -65,10 +74,47 @@ int main(void)
 
     // Define the vertex matrix
     float vertices[] = {
-	-0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
-	 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
-	 0.5f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
-	-0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  0.0f, 1.0f
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+    
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
     // Define the two triangles using vertices
@@ -76,6 +122,11 @@ int main(void)
 	0, 1, 2,
 	2, 3, 0
     };
+
+    // Set up a vertex array object to store vertex data
+    unsigned int vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
     // Set up texture object
     unsigned int texture;
@@ -87,7 +138,7 @@ int main(void)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     // Set up stb_image
@@ -117,18 +168,13 @@ int main(void)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    // Set up a vertex array object to store vertex data
-    unsigned int vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
     // Set up stb_image
     stbi_set_flip_vertically_on_load(true);
-    data = stbi_load("res/images/smile.png", &width, &height, &numChannels, 0);
+    data = stbi_load("res/images/Mother's Day.png", &width, &height, &numChannels, 0);
     if (data)
     {
 	// Generate the texture
-    	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     	glGenerateMipmap(GL_TEXTURE_2D);
     }
     else
@@ -150,20 +196,55 @@ int main(void)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // Link vertex attributes
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    // glEnableVertexAttribArray(1);
 
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
     // Compile and use the shader from file
-    Shader shader("res/shaders/textures.glsl");
+    Shader shader("res/shaders/threedee.glsl");
     shader.use();
     shader.setInt("mTexture1", 0);
     shader.setInt("mTexture2", 1);
+
+    // Do view transforms and matrix stuff
+    glm::mat4 view = glm::mat4(1.0f); // view matrix
+
+    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+    glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+    glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f)); // shift everything away from camera
+
+    glm::mat4 projection;
+    projection = glm::perspective(glm::radians(45.0f), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
+
+    unsigned int viewLoc = glGetUniformLocation(shader.id, "view");
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+    unsigned int projectionLoc = glGetUniformLocation(shader.id, "projection");
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+    // MORE CUBES
+    glm::vec3 cubePositions[] = {
+	glm::vec3(0.0f, 0.0f, 0.0f),
+	glm::vec3(2.0f, 5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3(2.4f, -0.4f, -3.5f),
+	glm::vec3(-1.7f, 3.0f, -7.5f)
+    };
+
+    // Enable depth testing for proper occlusion
+    glEnable(GL_DEPTH_TEST);
 
     // Loop until the user closes the window
     while (!glfwWindowShouldClose(window))
@@ -172,8 +253,9 @@ int main(void)
 	processInput(window);
 
 	// Clear the screen
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	// glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.9453125f, 0.97265625f, 0.3984375f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Set the program to draw wireframes
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -186,11 +268,20 @@ int main(void)
 	glBindTexture(GL_TEXTURE_2D, smileTexture);
 
 	glBindVertexArray(vao);
+	for (size_t i = 0; i < sizeof(cubePositions)/sizeof(*cubePositions); i++)
+	{
+	    glm::mat4 model = glm::mat4(1.0f); // model matrix
+	    model = glm::translate(model, cubePositions[i]);
+	    float angle = 20.0f * i + 15;
+	    model = glm::rotate(model, glm::radians(angle * (float)glfwGetTime() * 2), glm::vec3(1.0f, 0.3f, 0.5f));
+	    
+	    unsigned int modelLoc = glGetUniformLocation(shader.id, "model");
+    	    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-	// Draw the shape
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	    // Draw the shape
+	    glDrawArrays(GL_TRIANGLES, 0, 36);
+	}
 
-	// Unbind the vao
 	glBindVertexArray(0);
 
 	// Swap buffers
@@ -199,6 +290,10 @@ int main(void)
 	// Poll/process events
 	glfwPollEvents();
     }
+
+    // glDeleteVertexArrays(1, &vao);
+    glDeleteBuffers(1, &vbo);
+    // glDeleteBuffers(1, &ebo);
 
     glfwTerminate();
     return 0;

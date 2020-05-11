@@ -21,12 +21,18 @@ out vec4 FragColor;
 in vec3 mColor;
 in vec2 TexCoord;
 
+vec2 distFromCenter;
+float opacity;
+
 uniform sampler2D mTexture1;
 uniform sampler2D mTexture2;
 
 void main()
 {
-    FragColor = vec4(mColor, 1.0);
+    // FragColor = vec4(mColor, 1.0);
     // FragColor = texture(mTexture, TexCoord) * vec4(mColor, 1.0);
-    // FragColor = mix(texture(mTexture1, TexCoord), texture(mTexture2, 2.0 * TexCoord), 0.8);
+    FragColor = mix(texture(mTexture1, TexCoord), texture(mTexture2, 2.0 * TexCoord), 0.8);
+    // distFromCenter = abs(TexCoord - vec2(0.5, 0.5));
+    // opacity = sqrt(distFromCenter.x * distFromCenter.x + distFromCenter.y * distFromCenter.y);
+    // FragColor = mix(texture(mTexture1, TexCoord), texture(mTexture2, 2.0 * TexCoord), opacity);
 }

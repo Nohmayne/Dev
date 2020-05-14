@@ -11,4 +11,4 @@ Me. Look at it if you want.
 ## Documentation
 > WARNING: NOT WELL KEPT AT ALL. PROCEED AT YOUR OWN RISK.
 
-### Classes
+### Structure

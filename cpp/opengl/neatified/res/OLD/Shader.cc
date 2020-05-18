@@ -1,19 +1,8 @@
 #include "Shader.hh"
 
-Shader::Shader(const std::string& filepath) :
-    m_filepath(filepath),
-    m_rendererID(0)
+Shader::Shader(const char* filepath) 
 {
-    m_rendererID = createShader(filepath);
-}
-
-Shader::~Shader()
-{
-    glDeleteProgram(m_rendererID);
-}
-
-unsigned int Shader::createShader(const std::string& filepath)
-{
+    // ---=== PARSING ===---
     enum Type
     {
 	NONE = -1, VERTEX = 0, FRAGMENT = 1
@@ -48,6 +37,8 @@ unsigned int Shader::createShader(const std::string& filepath)
 	}
     }
 
+    // ---=== COMPILATION ===---
+
     const char* vertexSource = svertexSource.c_str();
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
@@ -74,7 +65,7 @@ unsigned int Shader::createShader(const std::string& filepath)
 	std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
-    unsigned int id = glCreateProgram();
+    id = glCreateProgram();
     glAttachShader(id, vertexShader);
     glAttachShader(id, fragmentShader);
     glLinkProgram(id);
@@ -88,38 +79,24 @@ unsigned int Shader::createShader(const std::string& filepath)
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-
-    return id;
 }
 
-void Shader::bind() const
+void Shader::use()
 {
-    glUseProgram(m_rendererID);
+    glUseProgram(id);
 }
 
-void Shader::unbind() const
+void Shader::setBool(const std::string &name, bool value) const
 {
-    glUseProgram(0);
+    glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
 }
 
-void Shader::setUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
+void Shader::setInt(const std::string &name, int value) const
 {
-    glUniform4f(getUniformLocation(m_filepath), v0, v1, v2 ,v3);
+    glUniform1i(glGetUniformLocation(id, name.c_str()), value);
 }
 
-unsigned int Shader::getUniformLocation(const std::string& name)
+void Shader::setFloat(const std::string &name, float value) const
 {
-    if (m_uniformLocationCache.find(name) != m_uniformLocationCache.end())
-	return m_uniformLocationCache[name];
-    else
-    {
-	int loc = glGetUniformLocation(m_rendererID, name.c_str());
-
-    	if (loc == -1)
-    	    std::cout << "Warning: Could not locate uniform " << name << std::endl;
-	
-	m_uniformLocationCache[name] = loc;
-
-    	return loc;
-    }
+    glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 }

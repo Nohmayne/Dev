@@ -8,22 +8,27 @@
 #include <sstream>
 #include <iostream>
 
+#include <unordered_map>
+
 class Shader
 {
 public:
-    // Shader program ID
-    unsigned int id;
+    Shader(const std::string& filepath);
+    ~Shader();
 
-    // Constructor
-    Shader(const char* filepath);
+    void bind() const;
+    void unbind() const;
 
-    // Uses the program in OpenGL
-    void use();
+    void setUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
+private:
+    unsigned int m_rendererID;
+    std::string m_filepath;
 
-    // Set uniforms
-    void setBool(const std::string &name, bool value) const;
-    void setInt(const std::string &name, int value) const;
-    void setFloat(const std::string &name, float value) const;
+    std::unordered_map<std::string, int> m_uniformLocationCache;
+
+    unsigned int createShader(const std::string& filepath);
+
+    unsigned int getUniformLocation(const std::string& name);
 };
 
 #endif

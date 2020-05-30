@@ -9,8 +9,6 @@ class Manager
 public:
     Manager(Renderer& rnd, WindowManager& wm);
 
-    void init();
-
     static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 private:
     Renderer& m_renderer;

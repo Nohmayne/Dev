@@ -11,7 +11,6 @@ public:
     WindowManager(int width, int height, std::string title);
     ~WindowManager();
 
-    void init();
     bool shouldClose() const;
     GLFWwindow* getWindow() const;
 

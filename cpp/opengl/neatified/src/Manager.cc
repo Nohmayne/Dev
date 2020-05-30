@@ -3,9 +3,6 @@
 Manager::Manager(Renderer& rnd, WindowManager& wm) :
     m_renderer(rnd),
     m_windowManager(wm)
-{}
-
-void Manager::init()
 {
     glfwSetFramebufferSizeCallback(m_windowManager.getWindow(), Manager::framebuffer_size_callback);
 }

@@ -1,10 +1,11 @@
 #include "ElementBuffer.hh"
 
-ElementBuffer::ElementBuffer(const void* data, unsigned int size)
+ElementBuffer::ElementBuffer(const unsigned int* data, unsigned int count)
+    : m_count(count)
 {
     glGenBuffers(1, &m_rendererID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
@@ -21,4 +22,9 @@ void ElementBuffer::bind() const
 void ElementBuffer::unbind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+unsigned int ElementBuffer::getCount() const
+{
+    return m_count;
 }

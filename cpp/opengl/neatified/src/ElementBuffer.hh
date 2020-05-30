@@ -6,13 +6,16 @@
 class ElementBuffer
 {
 public:
-    ElementBuffer(const void* data, unsigned int size);
+    ElementBuffer(const unsigned int* data, unsigned int count);
     ~ElementBuffer();
 
     void bind() const;
     void unbind() const;
+
+    unsigned int getCount() const;
 private:
     unsigned int m_rendererID;
+    unsigned int m_count;
 };
 
 #endif

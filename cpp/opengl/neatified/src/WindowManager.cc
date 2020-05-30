@@ -4,14 +4,6 @@ WindowManager::WindowManager(int width, int height, std::string title) :
     m_windowWidth(width),
     m_windowHeight(height),
     m_title(title)
-{}
-
-WindowManager::~WindowManager()
-{
-    glfwTerminate();
-}
-
-void WindowManager::init()
 {
     if (!glfwInit())
     {
@@ -31,6 +23,11 @@ void WindowManager::init()
     }
 
     glfwMakeContextCurrent(m_window);
+}
+
+WindowManager::~WindowManager()
+{
+    glfwTerminate();
 }
 
 bool WindowManager::shouldClose() const

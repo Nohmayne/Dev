@@ -9,14 +9,11 @@
 int main(void)
 {
     WindowManager wm(1280, 720, "OpenGL");
-    wm.init();
 
     Renderer rnd;
-    rnd.init();
     rnd.setClearColor(0.2f, 0.2f, 0.3f);
 
     Manager m(rnd, wm);
-    m.init();
 
     float vertices[] = {
 	-0.5f, -0.5f, 0.0f,
@@ -52,10 +49,7 @@ int main(void)
 	wm.processInput();
 
 	rnd.clear();
-
-	shd.bind();
-	vao.bind();
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	rnd.draw(vao, ebo, shd);
 
 	wm.swapBuffers();
 	wm.pollEvents();

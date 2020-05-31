@@ -9,6 +9,9 @@ Renderer::Renderer()
 	std::cout << glewGetErrorString(err) << std::endl;
     }
     std::cout << "Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
 }
 
 void Renderer::setClearColor(float red, float green, float blue, float alpha)

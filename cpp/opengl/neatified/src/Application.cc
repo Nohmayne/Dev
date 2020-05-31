@@ -5,6 +5,7 @@
 #include "VertexBuffer.hh"
 #include "ElementBuffer.hh"
 #include "Shader.hh"
+#include "Texture.hh"
 
 int main(void)
 {
@@ -16,10 +17,10 @@ int main(void)
     Manager m(rnd, wm);
 
     float vertices[] = {
-	-0.5f, -0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 0.5f,  0.5f, 0.0f,
-	-0.5f,  0.5f, 0.0f
+	-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+	 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+	 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+	-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
     };
 
     unsigned int indices[] = {
@@ -37,12 +38,18 @@ int main(void)
     ebo.bind();
 
     VertexAttribute position(0, 3, GL_FLOAT, GL_FALSE);
+    VertexAttribute texCoords(1, 2, GL_FLOAT, GL_FALSE);
     vao.pushAttribute(position);
+    vao.pushAttribute(texCoords);
 
     vao.setPointers();
 
-    Shader shd("res/shaders/basic.glsl");
+    Shader shd("res/shaders/textures.glsl");
     shd.bind();
+
+    Texture tex("res/images/beans.png");
+    tex.bind();
+    shd.setUniform1i("uTexture", 0);
 
     while (!wm.shouldClose())
     {

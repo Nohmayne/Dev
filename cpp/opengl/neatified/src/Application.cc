@@ -41,6 +41,10 @@ int main(void)
     ebo.bind();
 
     glm::mat4 proj = glm::ortho(-4.f, 4.f, -2.25f, 2.25f, -1.f, 1.f);
+    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-1, 0, 0));
+    glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(2, 2, 0));
+
+    glm::mat4 mvp = proj * view * model;
 
     VertexAttribute position(0, 3, GL_FLOAT, GL_FALSE);
     VertexAttribute texCoords(1, 2, GL_FLOAT, GL_FALSE);
@@ -51,7 +55,7 @@ int main(void)
 
     Shader shd("res/shaders/maths.glsl");
     shd.bind();
-    shd.setUniformMat4f("uMVP", proj);
+    shd.setUniformMat4f("uMVP", mvp);
 
     Texture tex("res/images/beans.png");
     tex.bind();

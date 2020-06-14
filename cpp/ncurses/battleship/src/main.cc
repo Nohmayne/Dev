@@ -11,19 +11,20 @@ int main()
     getmaxyx(stdscr, ymax, xmax);
 
     int bwidth, bheight;
-    bwidth = bheight = 11;
+    bheight = 11;
+    bwidth = bheight * 2;
 
-    // WINDOW* bwin = newwin(
-            // bheight,
-            // bwidth,
-            // ymax / 2 - bheight / 2,
-            // xmax / 2 - bwidth / 2
-    // );
-    WINDOW* bwin = newwin(bheight, bwidth, 0, 0);
+    WINDOW* bwin = newwin(
+            bheight,
+            bwidth,
+            ymax / 2 - bheight / 2,
+            xmax / 2 - bwidth / 2
+    );
 
     wprintw(bwin, "%d, %d", ymax / 2 - bheight / 2, xmax / 2 - bwidth / 2);
 
     box(bwin, 0, 0);
+    refresh();
     wrefresh(bwin);
 
     getch();

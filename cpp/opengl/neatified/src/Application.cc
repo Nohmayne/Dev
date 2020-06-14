@@ -7,6 +7,9 @@
 #include "Shader.hh"
 #include "Texture.hh"
 
+#include "vendor/glm/glm.hpp"
+#include "vendor/glm/gtc/matrix_transform.hpp"
+
 int main(void)
 {
     WindowManager wm(1280, 720, "OpenGL");
@@ -37,6 +40,8 @@ int main(void)
     ElementBuffer ebo(indices, sizeof(indices));
     ebo.bind();
 
+    glm::mat4 proj = glm::ortho(-4.f, 4.f, -2.25f, 2.25f, -1.f, 1.f);
+
     VertexAttribute position(0, 3, GL_FLOAT, GL_FALSE);
     VertexAttribute texCoords(1, 2, GL_FLOAT, GL_FALSE);
     vao.pushAttribute(position);
@@ -44,12 +49,12 @@ int main(void)
 
     vao.setPointers();
 
-    Shader shd("res/shaders/textures.glsl");
+    Shader shd("res/shaders/maths.glsl");
     shd.bind();
+    shd.setUniformMat4f("uMVP", proj);
 
     Texture tex("res/images/beans.png");
     tex.bind();
-    shd.setUniform1i("uTexture", 0);
 
     while (!wm.shouldClose())
     {

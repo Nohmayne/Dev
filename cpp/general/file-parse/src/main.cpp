@@ -14,7 +14,7 @@ int main(void)
 
     const char* source1 = "";
     const char* source2 = "";
-    
+
     std::string ssource1 = "";
     std::string ssource2 = "";
 

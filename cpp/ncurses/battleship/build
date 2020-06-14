@@ -1,0 +1,3 @@
+#!/bin/sh
+
+g++ -Wall -g src/*.cc -lncurses -o main && gdb main

@@ -1,6 +1,6 @@
 #include "Renderer.hh"
 
-Renderer::Renderer() 
+Renderer::Renderer()
 {
     GLenum err = glewInit();
     if (GLEW_OK != err)

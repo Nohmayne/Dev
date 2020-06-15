@@ -40,9 +40,13 @@ int main(void)
     ElementBuffer ebo(indices, sizeof(indices));
     ebo.bind();
 
-    glm::mat4 proj = glm::ortho(-4.f, 4.f, -2.25f, 2.25f, -1.f, 1.f);
-    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-1, 0, 0));
-    glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(2, 2, 0));
+    glm::mat4 model = glm::mat4(1.f);
+    model = glm::rotate(model, glm::radians(-55.f), glm::vec3(1.f, 0.f, 0.f));
+
+    glm::mat4 view = glm::mat4(1.f);
+    view = glm::translate(view, glm::vec3(0.f, 0.f, -3.f));
+
+    glm::mat4 proj = glm::perspective(glm::radians(45.f), 1.f * wm.getWidth() / wm.getHeight(), 0.1f, 100.0f);
 
     glm::mat4 mvp = proj * view * model;
 

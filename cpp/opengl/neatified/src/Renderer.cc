@@ -32,3 +32,17 @@ void Renderer::draw(const VertexArray& vao, const ElementBuffer& ebo, const Shad
 
     glDrawElements(GL_TRIANGLES, ebo.getCount(), GL_UNSIGNED_INT, 0);
 }
+
+void Renderer::draw(Object* obj)
+{
+    std::cout << "Rendering obj" << std::endl;
+    obj->bindAll();
+
+    std::cout << "COUNT: " << obj->getEBO().getCount() << std::endl;
+
+    std::cout << "Drawing GL_TRIANGLES" << std::endl;
+
+    glDrawElements(GL_TRIANGLES, obj->getEBO().getCount(), GL_UNSIGNED_INT, 0);
+
+    std::cout << "GL_TRIANGLES drawn" << std::endl;
+}

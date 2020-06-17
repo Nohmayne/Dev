@@ -53,7 +53,6 @@ int main()
     hashmap.insert(std::make_pair("Hello", 1));
     hashmap.insert(std::make_pair("World", 2));
 
-    // auto ==> std::unordered_map<std::string, int>
     for (auto itr = hashmap.begin(); itr != hashmap.end(); itr++)
     {
         std::cout << itr->second << ": " << itr->first << std::endl;

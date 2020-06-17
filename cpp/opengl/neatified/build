@@ -1,3 +1,4 @@
 #!/bin/sh
 
-g++ -Wall -g -o main src/*.cc -lglfw -lGLEW -lGLU -lGL && gdb main
+clear
+g++ -Wall -g -o main -I src -I src/vendor/glm -I src/vendor/glm/gtc -I src/objects src/*.cc src/objects/*.cc -lglfw -lGLEW -lGLU -lGL && gdb main

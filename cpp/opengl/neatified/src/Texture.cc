@@ -2,7 +2,7 @@
 
 #include "vendor/stb_image/stb_image.cc"
 
-Texture::Texture(const std::string& path) : 
+Texture::Texture(const std::string& path) :
     m_rendererID(0),
     m_filepath(path),
     m_localBuffer(nullptr),
@@ -39,7 +39,8 @@ void Texture::bind(unsigned int slot) const
     glBindTexture(GL_TEXTURE_2D, m_rendererID);
 }
 
-void Texture::unbind() const
+void Texture::unbind(unsigned int slot) const
 {
-
+    glActiveTexture(GL_TEXTURE0 + slot);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

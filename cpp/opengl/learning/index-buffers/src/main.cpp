@@ -120,7 +120,7 @@ int main(void)
         return -1;
     }
 
-    float positions[] =
+    const float positions[] =
     {
         -0.5f, -0.5f,
          0.5f, -0.5f,
@@ -128,7 +128,7 @@ int main(void)
         -0.5f,  0.5f
     };
 
-    unsigned int indices[] =
+    const unsigned int indices[] =
     {
         0, 1, 2,
         2, 3, 0

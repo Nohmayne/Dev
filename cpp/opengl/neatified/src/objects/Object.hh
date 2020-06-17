@@ -19,6 +19,20 @@ class Object
         inline glm::vec3& getPosition() { return m_position; }
         inline glm::vec4& getRotation() { return m_rotation; }
         inline glm::vec3& getScale() { return m_scale; }
+
+        inline glm::mat4& getModelMatrix() { return m_model; }
+
+        inline VertexArray& getVAO() { return m_vao; }
+        inline VertexBuffer& getVBO() { return m_vbo; }
+        inline ElementBuffer& getEBO() { return m_ebo; }
+        inline Shader& getSHD() { return m_shd; }
+
+        void bindAll() const;
+        void unbindAll() const;
+
+        void translate(glm::vec3& translation);
+        void rotate(glm::vec4& rotation);
+        void scale(glm::vec3& scaleFactor);
     protected:
         VertexArray m_vao;
         VertexBuffer m_vbo;

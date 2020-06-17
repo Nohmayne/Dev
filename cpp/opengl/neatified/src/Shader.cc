@@ -14,6 +14,9 @@ Shader::~Shader()
 
 unsigned int Shader::createShader(const std::string& filepath)
 {
+    if (filepath == "")
+        return 0;
+
     enum Type
     {
 	NONE = -1, VERTEX = 0, FRAGMENT = 1
@@ -59,7 +62,7 @@ unsigned int Shader::createShader(const std::string& filepath)
     if (!success)
     {
 	glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-	std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+	std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
     const char* fragmentSource = sfragmentSource.c_str();
@@ -71,7 +74,7 @@ unsigned int Shader::createShader(const std::string& filepath)
     if (!success)
     {
 	glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-	std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+	std::cerr << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 
     unsigned int id = glCreateProgram();
@@ -83,7 +86,7 @@ unsigned int Shader::createShader(const std::string& filepath)
     if (!success)
     {
 	glGetProgramInfoLog(id, 512, NULL, infoLog);
-	std::cout << "ERROR::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+	std::cerr << "ERROR::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
 
     glDeleteShader(vertexShader);
@@ -128,11 +131,15 @@ unsigned int Shader::getUniformLocation(const std::string& name)
 	return m_uniformLocationCache[name];
     else
     {
+        bind();
 	int loc = glGetUniformLocation(m_rendererID, name.c_str());
 
     	if (loc == -1)
+        {
     	    std::cout << "Warning: Could not locate uniform " << name << std::endl;
-	
+            std::cout << "-- Shader ID: " << m_rendererID << std::endl;
+        }
+
 	m_uniformLocationCache[name] = loc;
 
     	return loc;

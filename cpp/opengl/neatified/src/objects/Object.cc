@@ -2,7 +2,9 @@
 
 Object::Object() :
     m_vbo(0, 0), m_ebo(0, 0), m_shd(""), m_tex("")
-{}
+{
+    m_model = *new glm::mat4(1.0f);
+}
 
 void Object::translate(glm::vec3& translation)
 {

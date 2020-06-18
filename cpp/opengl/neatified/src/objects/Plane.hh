@@ -16,6 +16,8 @@ class Plane : public Object
               glm::vec4 rot = glm::vec4(0.f),
               glm::vec3 scl = glm::vec3(0.f));
 
+        ~Plane();
+
         void setShaderMVP(glm::mat4& mvp);
     private:
         std::array<float, 20> m_vertices;

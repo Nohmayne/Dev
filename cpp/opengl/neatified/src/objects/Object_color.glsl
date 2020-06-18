@@ -4,9 +4,11 @@
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec2 texCoord;
 
+uniform mat4 uMVP;
+
 void main()
 {
-    gl_Position = vec4(aPos, 1.0);
+    gl_Position = uMVP * vec4(aPos, 1.0);
 }
 
 #shader fragment
@@ -14,7 +16,9 @@ void main()
 
 out vec4 FragColor;
 
+uniform vec4 uColor;
+
 void main()
 {
-    FragColor = vec4(1.0, 0.0, 0.0, 0.0);
+    FragColor = uColor;
 }

@@ -112,7 +112,7 @@ void Shader::setUniform4f(const std::string& name, float v0, float v1, float v2,
 
 void Shader::setUniformMat4f(const std::string& name, const glm::mat4& matrix)
 {
-    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void Shader::setUniform1f(const std::string& name, float value)
@@ -137,7 +137,6 @@ unsigned int Shader::getUniformLocation(const std::string& name)
     	if (loc == -1)
         {
     	    std::cout << "Warning: Could not locate uniform " << name << std::endl;
-            std::cout << "-- Shader ID: " << m_rendererID << std::endl;
         }
 
 	m_uniformLocationCache[name] = loc;

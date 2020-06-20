@@ -30,9 +30,11 @@ class Object
         void bindAll() const;
         void unbindAll() const;
 
-        void translate(glm::vec3& translation);
-        void rotate(glm::vec4& rotation);
-        void scale(glm::vec3& scaleFactor);
+        void translate(const glm::vec3& translation);
+        void rotate(const glm::vec4& rotation);
+        void scale(const glm::vec3& scaleFactor);
+
+        void setShaderMVP(const glm::mat4& mvp);
     protected:
         VertexArray m_vao;
         VertexBuffer m_vbo;

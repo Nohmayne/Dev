@@ -6,18 +6,18 @@ Object::Object() :
     m_model = *new glm::mat4(1.0f);
 }
 
-void Object::translate(glm::vec3& translation)
+void Object::translate(const glm::vec3& translation)
 {
     m_model = glm::translate(m_model, translation);
 }
 
-void Object::rotate(glm::vec4& rotation)
+void Object::rotate(const glm::vec4& rotation)
 {
     m_model = glm::rotate(m_model, glm::radians(rotation.x),
             glm::vec3(rotation.y, rotation.z, rotation.w));
 }
 
-void Object::scale(glm::vec3& scaleFactor)
+void Object::scale(const glm::vec3& scaleFactor)
 {
     m_model = glm::scale(m_model, scaleFactor);
 }
@@ -44,4 +44,10 @@ void Object::unbindAll() const
 
     if (m_tex.getHeight() != 0 && m_tex.getWidth() != 0)
         m_tex.unbind();
+}
+
+void Object::setShaderMVP(const glm::mat4& mvp)
+{
+    m_shd.setUniformMat4f("uMVP", mvp);
+    return;
 }

@@ -46,11 +46,8 @@ Plane::Plane(const std::string& shd, const std::string& tex,
     m_shd = *new Shader(shd);
     m_shd.bind();
 
-    if (tex != "")
-    {
-        m_tex = *new Texture(tex);
-        m_tex.bind();
-    }
+    m_tex = *new Texture(tex);
+    m_tex.bind();
 }
 
 Plane::Plane(const std::string& shd, const glm::vec3& clr,
@@ -111,10 +108,3 @@ Plane::~Plane()
     delete &m_shd;
     delete &m_tex;
 }
-
-void Plane::setShaderMVP(glm::mat4& mvp)
-{
-    m_shd.setUniformMat4f("uMVP", mvp);
-    return;
-}
-

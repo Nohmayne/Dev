@@ -38,6 +38,19 @@ void Renderer::draw(const VertexArray& vao, const ElementBuffer& ebo, const Shad
 void Renderer::draw(Object* obj)
 {
     obj->bindAll();
+    obj->setShaderMVP(glm::perspective(glm::radians(m_sceneCamera->getFOV()), m_aspectRatio, 0.1f, 100.f)
+            * m_sceneCamera->getViewMatrix()
+            * obj->getModelMatrix());
 
     glDrawElements(GL_TRIANGLES, obj->getEBO().getCount(), GL_UNSIGNED_INT, 0);
+}
+
+void Renderer::setSceneCamera(Camera* cam)
+{
+    m_sceneCamera = cam;
+}
+
+void Renderer::setAspectRatio(const float aspectRatio)
+{
+    m_aspectRatio = aspectRatio;
 }

@@ -79,7 +79,7 @@ void WindowManager::processInput(Camera& cam)
     deltaTime = m_currentFrame - m_lastFrame;
     m_lastFrame = m_currentFrame;
 
-    float cameraSpeed = 2.5f * deltaTime;
+    float cameraSpeed = 1.5f * deltaTime;
 
     if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	glfwSetWindowShouldClose(m_window, true);
@@ -88,7 +88,7 @@ void WindowManager::processInput(Camera& cam)
     if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
         cam.setPosition(cam.getPosition() - cameraSpeed * cam.getDirection());
     if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-        cam.setPosition(cam.getPosition() - cameraSpeed * cam.getRight());
-    if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
         cam.setPosition(cam.getPosition() + cameraSpeed * cam.getRight());
+    if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
+        cam.setPosition(cam.getPosition() - cameraSpeed * cam.getRight());
 }

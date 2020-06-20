@@ -1,15 +1,9 @@
 #include <iostream>
 
-#include "Manager.hh"
-#include "VertexArray.hh"
-#include "VertexBuffer.hh"
-#include "ElementBuffer.hh"
-#include "Shader.hh"
-#include "Texture.hh"
-
 #include "vendor/glm/glm.hpp"
 #include "vendor/glm/gtc/matrix_transform.hpp"
 
+#include "Manager.hh"
 #include "objects/Plane.hh"
 
 int main(void)
@@ -28,6 +22,15 @@ int main(void)
     glm::mat4 proj = glm::perspective(glm::radians(45.f), 1.f * wm.getWidth() / wm.getHeight(), 0.1f, 100.0f);
 
     glm::mat4 mvp = proj * view * model;
+
+    for (size_t i = 0; i < 4; i++)
+    {
+        for (size_t j = 0; j < 4; j++)
+        {
+            std::cout << pl->getModelMatrix()[i][j] << ", ";
+        }
+        std::cout << std::endl;
+    }
 
     pl->bindAll();
     pl->setShaderMVP(mvp);

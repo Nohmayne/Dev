@@ -4,6 +4,8 @@
 Plane::Plane(const std::string& shd, const std::string& tex,
         glm::vec3 pos, glm::vec4 rot, glm::vec3 scl)
 {
+    m_model = *new glm::mat4(1.f);
+
     m_position = pos;
     m_rotation = rot;
     m_scale = scl;
@@ -54,6 +56,8 @@ Plane::Plane(const std::string& shd, const std::string& tex,
 Plane::Plane(const std::string& shd, const glm::vec3& clr,
         glm::vec3 pos, glm::vec4 rot, glm::vec3 scl)
 {
+    m_model = *new glm::mat4(1.f);
+
     m_position = pos;
     m_rotation = rot;
     m_scale = scl;
@@ -98,6 +102,8 @@ Plane::Plane(const std::string& shd, const glm::vec3& clr,
 
 Plane::~Plane()
 {
+    delete &m_model;
+
     delete &m_vao;
     delete &m_vbo;
     delete &m_ebo;

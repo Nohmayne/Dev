@@ -20,7 +20,7 @@ class Object
         inline glm::vec4& getRotation() { return m_rotation; }
         inline glm::vec3& getScale() { return m_scale; }
 
-        inline glm::mat4& getModelMatrix() { return m_model; }
+        inline glm::mat4 getModelMatrix() { return m_model; }
 
         inline VertexArray& getVAO() { return m_vao; }
         inline VertexBuffer& getVBO() { return m_vbo; }

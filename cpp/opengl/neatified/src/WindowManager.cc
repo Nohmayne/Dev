@@ -1,9 +1,12 @@
 #include "WindowManager.hh"
 
 WindowManager::WindowManager(int width, int height, std::string title) :
+    deltaTime(0.f),
     m_windowWidth(width),
     m_windowHeight(height),
-    m_title(title)
+    m_title(title),
+    m_lastFrame(0.f),
+    m_currentFrame(0.f)
 {
     if (!glfwInit())
     {
@@ -62,6 +65,30 @@ int WindowManager::getHeight() const
 
 void WindowManager::processInput()
 {
+    m_currentFrame = glfwGetTime();
+    deltaTime = m_currentFrame - m_lastFrame;
+    m_lastFrame = m_currentFrame;
+
     if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	glfwSetWindowShouldClose(m_window, true);
+}
+
+void WindowManager::processInput(Camera& cam)
+{
+    m_currentFrame = glfwGetTime();
+    deltaTime = m_currentFrame - m_lastFrame;
+    m_lastFrame = m_currentFrame;
+
+    float cameraSpeed = 2.5f * deltaTime;
+
+    if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	glfwSetWindowShouldClose(m_window, true);
+    if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
+        cam.setPosition(cam.getPosition() + cameraSpeed * cam.getDirection());
+    if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS)
+        cam.setPosition(cam.getPosition() - cameraSpeed * cam.getDirection());
+    if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
+        cam.setPosition(cam.getPosition() - cameraSpeed * cam.getRight());
+    if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS)
+        cam.setPosition(cam.getPosition() + cameraSpeed * cam.getRight());
 }

@@ -13,7 +13,7 @@ Camera::Camera() :
     m_view = glm::lookAt(m_position, m_position + m_direction, m_up);
 }
 
-Camera::Camera(glm::vec3 position, glm::vec3 direction, float fov) :
+Camera::Camera(glm::vec3 position, float fov, glm::vec3 direction) :
     m_fov(fov)
 {
     m_position = position;

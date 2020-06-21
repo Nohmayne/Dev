@@ -10,7 +10,7 @@ int main(void)
 
     Manager m(rnd, wm);
 
-    Camera* cam = new Camera(glm::vec3(0.f, 0.f, 3.f));
+    Camera* cam = new Camera(glm::vec3(0.f, 0.f, 3.f), 60.f);
 
     m.setSceneCamera(cam);
     m.setAspectRatio(1.f * wm.getWidth() / wm.getHeight());

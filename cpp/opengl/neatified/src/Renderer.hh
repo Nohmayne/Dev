@@ -10,20 +10,20 @@
 
 class Renderer
 {
-public:
-    Renderer();
+    public:
+        Renderer();
 
-    void setClearColor(float red, float green, float blue, float alpha = 1.0f);
-    void clear() const;
+        void setClearColor(float red, float green, float blue, float alpha = 1.0f);
+        void clear() const;
 
-    void draw(const VertexArray& vao, const ElementBuffer& ebo, const Shader& shader) const;
-    void draw(Object* obj);
+        void draw(const VertexArray& vao, const ElementBuffer& ebo, const Shader& shader) const;
+        void draw(Object* obj);
 
-    void setSceneCamera(Camera* cam);
-    void setAspectRatio(const float aspectRatio);
-private:
-    Camera* m_sceneCamera;
-    float m_aspectRatio;
+        void setRendererSceneCamera(Camera* cam);
+        void setRendererAspectRatio(float aspectRatio);
+    private:
+        Camera* m_sceneCamera;
+        float m_aspectRatio;
 };
 
 #endif

@@ -11,3 +11,15 @@ void Manager::framebuffer_size_callback(GLFWwindow *window, int width, int heigh
 {
     glViewport(0, 0, width, height);
 }
+
+void Manager::setSceneCamera(Camera* cam)
+{
+    m_renderer.setRendererSceneCamera(cam);
+    m_windowManager.setWindowManagerSceneCamera(cam);
+}
+
+void Manager::setAspectRatio(const float aspectRatio)
+{
+    m_renderer.setRendererAspectRatio(aspectRatio);
+    m_windowManager.setWindowManagerAspectRatio(aspectRatio);
+}

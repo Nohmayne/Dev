@@ -45,12 +45,12 @@ void Renderer::draw(Object* obj)
     glDrawElements(GL_TRIANGLES, obj->getEBO().getCount(), GL_UNSIGNED_INT, 0);
 }
 
-void Renderer::setSceneCamera(Camera* cam)
+void Renderer::setRendererSceneCamera(Camera *cam)
 {
     m_sceneCamera = cam;
 }
 
-void Renderer::setAspectRatio(const float aspectRatio)
+void Renderer::setRendererAspectRatio(float aspectRatio)
 {
     m_aspectRatio = aspectRatio;
 }

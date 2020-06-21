@@ -27,6 +27,8 @@ class Object
         inline ElementBuffer& getEBO() { return m_ebo; }
         inline Shader& getSHD() { return m_shd; }
 
+        inline glm::vec3& getColor() { return m_color; }
+
         void bindAll() const;
         void unbindAll() const;
 
@@ -34,7 +36,9 @@ class Object
         void rotate(const glm::vec4& rotation);
         void scale(const glm::vec3& scaleFactor);
 
-        void setShaderMVP(const glm::mat4& mvp);
+        void setShaderMVP(const glm::mat4& model,
+                const glm::mat4& view,
+                const glm::mat4& projection);
     protected:
         VertexArray m_vao;
         VertexBuffer m_vbo;
@@ -42,6 +46,8 @@ class Object
 
         Shader m_shd;
         Texture m_tex;
+
+        glm::vec3 m_color;
 
         glm::vec3 m_position;
         glm::vec4 m_rotation;

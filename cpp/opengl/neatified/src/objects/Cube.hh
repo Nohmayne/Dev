@@ -18,7 +18,7 @@ class Cube : public Object
 
         ~Cube();
     private:
-        std::array<float, 120> m_vertices;
+        std::array<float, 192> m_vertices;
         std::array<unsigned int, 36> m_indices;
 };
 

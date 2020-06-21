@@ -18,7 +18,7 @@ class Plane : public Object
 
         ~Plane();
     private:
-        std::array<float, 20> m_vertices;
+        std::array<float, 32> m_vertices;
         std::array<unsigned int, 6> m_indices;
 };
 

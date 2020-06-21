@@ -11,35 +11,35 @@ Cube::Cube(const std::string& shd, const std::string& tex,
     m_scale = scl;
 
     m_vertices = {
-         0.5f, -0.5f, -0.5f, 0.f, 0.f, // back
-        -0.5f, -0.5f, -0.5f, 1.f, 0.f,
-        -0.5f,  0.5f, -0.5f, 1.f, 1.f,
-         0.5f,  0.5f, -0.5f, 0.f, 1.f,
+         0.5f, -0.5f, -0.5f, 0.f, 0.f,  0.f,  0.f, -1.f, // back
+        -0.5f, -0.5f, -0.5f, 1.f, 0.f,  0.f,  0.f, -1.f,
+        -0.5f,  0.5f, -0.5f, 1.f, 1.f,  0.f,  0.f, -1.f,
+         0.5f,  0.5f, -0.5f, 0.f, 1.f,  0.f,  0.f, -1.f,
 
-        -0.5f, -0.5f,  0.5f, 0.f, 0.f, // front
-         0.5f, -0.5f,  0.5f, 1.f, 0.f,
-         0.5f,  0.5f,  0.5f, 1.f, 1.f,
-        -0.5f,  0.5f,  0.5f, 0.f, 1.f,
+        -0.5f, -0.5f,  0.5f, 0.f, 0.f,  0.f,  0.f,  1.f, // front
+         0.5f, -0.5f,  0.5f, 1.f, 0.f,  0.f,  0.f,  1.f,
+         0.5f,  0.5f,  0.5f, 1.f, 1.f,  0.f,  0.f,  1.f,
+        -0.5f,  0.5f,  0.5f, 0.f, 1.f,  0.f,  0.f,  1.f,
 
-        -0.5f, -0.5f, -0.5f, 0.f, 0.f, // left
-        -0.5f, -0.5f,  0.5f, 1.f, 0.f,
-        -0.5f,  0.5f,  0.5f, 1.f, 1.f,
-        -0.5f,  0.5f, -0.5f, 0.f, 1.f,
+        -0.5f, -0.5f, -0.5f, 0.f, 0.f, -1.f,  0.f,  0.f, // left
+        -0.5f, -0.5f,  0.5f, 1.f, 0.f, -1.f,  0.f,  0.f,
+        -0.5f,  0.5f,  0.5f, 1.f, 1.f, -1.f,  0.f,  0.f,
+        -0.5f,  0.5f, -0.5f, 0.f, 1.f, -1.f,  0.f,  0.f,
 
-         0.5f, -0.5f,  0.5f, 0.f, 0.f, // right
-         0.5f, -0.5f, -0.5f, 1.f, 0.f,
-         0.5f,  0.5f, -0.5f, 1.f, 1.f,
-         0.5f,  0.5f,  0.5f, 0.f, 1.f,
+         0.5f, -0.5f,  0.5f, 0.f, 0.f,  1.f,  0.f,  0.f, // right
+         0.5f, -0.5f, -0.5f, 1.f, 0.f,  1.f,  0.f,  0.f,
+         0.5f,  0.5f, -0.5f, 1.f, 1.f,  1.f,  0.f,  0.f,
+         0.5f,  0.5f,  0.5f, 0.f, 1.f,  1.f,  0.f,  0.f,
 
-        -0.5f,  0.5f,  0.5f, 0.f, 0.f, // top
-         0.5f,  0.5f,  0.5f, 1.f, 0.f,
-         0.5f,  0.5f, -0.5f, 1.f, 1.f,
-        -0.5f,  0.5f, -0.5f, 0.f, 1.f,
+        -0.5f,  0.5f,  0.5f, 0.f, 0.f,  0.f,  1.f,  0.f, // top
+         0.5f,  0.5f,  0.5f, 1.f, 0.f,  0.f,  1.f,  0.f,
+         0.5f,  0.5f, -0.5f, 1.f, 1.f,  0.f,  1.f,  0.f,
+        -0.5f,  0.5f, -0.5f, 0.f, 1.f,  0.f,  1.f,  0.f,
 
-        -0.5f, -0.5f, -0.5f, 0.f, 0.f, // bottom
-         0.5f, -0.5f, -0.5f, 1.f, 0.f,
-         0.5f, -0.5f,  0.5f, 1.f, 1.f,
-        -0.5f, -0.5f,  0.5f, 0.f, 1.f
+        -0.5f, -0.5f, -0.5f, 0.f, 0.f,  0.f, -1.f,  0.f, // bottom
+         0.5f, -0.5f, -0.5f, 1.f, 0.f,  0.f, -1.f,  0.f,
+         0.5f, -0.5f,  0.5f, 1.f, 1.f,  0.f, -1.f,  0.f,
+        -0.5f, -0.5f,  0.5f, 0.f, 1.f,  0.f, -1.f,  0.f
     };
 
     m_indices = {
@@ -73,8 +73,10 @@ Cube::Cube(const std::string& shd, const std::string& tex,
 
     VertexAttribute position(0, 3, GL_FLOAT, GL_FALSE);
     VertexAttribute texCoords(1, 2, GL_FLOAT, GL_FALSE);
+    VertexAttribute normals(2, 3, GL_FLOAT, GL_FALSE);
     m_vao.pushAttribute(position);
     m_vao.pushAttribute(texCoords);
+    m_vao.pushAttribute(normals);
 
     m_vao.setPointers();
 
@@ -100,35 +102,35 @@ Cube::Cube(const std::string& shd, const glm::vec3& clr,
     m_scale = scl;
 
     m_vertices = {
-         0.5f, -0.5f, -0.5f, 0.f, 0.f,
-        -0.5f, -0.5f, -0.5f, 1.f, 0.f,
-        -0.5f,  0.5f, -0.5f, 1.f, 1.f,
-         0.5f,  0.5f, -0.5f, 0.f, 1.f,
+         0.5f, -0.5f, -0.5f, 0.f, 0.f,  0.f,  0.f, -1.f,
+        -0.5f, -0.5f, -0.5f, 1.f, 0.f,  0.f,  0.f, -1.f,
+        -0.5f,  0.5f, -0.5f, 1.f, 1.f,  0.f,  0.f, -1.f,
+         0.5f,  0.5f, -0.5f, 0.f, 1.f,  0.f,  0.f, -1.f,
 
-        -0.5f, -0.5f,  0.5f, 0.f, 0.f,
-         0.5f, -0.5f,  0.5f, 1.f, 0.f,
-         0.5f,  0.5f,  0.5f, 1.f, 1.f,
-        -0.5f,  0.5f,  0.5f, 0.f, 1.f,
+        -0.5f, -0.5f,  0.5f, 0.f, 0.f,  0.f,  0.f,  1.f,
+         0.5f, -0.5f,  0.5f, 1.f, 0.f,  0.f,  0.f,  1.f,
+         0.5f,  0.5f,  0.5f, 1.f, 1.f,  0.f,  0.f,  1.f,
+        -0.5f,  0.5f,  0.5f, 0.f, 1.f,  0.f,  0.f,  1.f,
 
-        -0.5f, -0.5f, -0.5f, 0.f, 0.f,
-        -0.5f, -0.5f,  0.5f, 1.f, 0.f,
-        -0.5f,  0.5f,  0.5f, 1.f, 1.f,
-        -0.5f,  0.5f, -0.5f, 0.f, 1.f,
+        -0.5f, -0.5f, -0.5f, 0.f, 0.f, -1.f,  0.f,  0.f,
+        -0.5f, -0.5f,  0.5f, 1.f, 0.f, -1.f,  0.f,  0.f,
+        -0.5f,  0.5f,  0.5f, 1.f, 1.f, -1.f,  0.f,  0.f,
+        -0.5f,  0.5f, -0.5f, 0.f, 1.f, -1.f,  0.f,  0.f,
 
-         0.5f, -0.5f,  0.5f, 0.f, 0.f,
-         0.5f, -0.5f, -0.5f, 1.f, 0.f,
-         0.5f,  0.5f, -0.5f, 1.f, 1.f,
-         0.5f,  0.5f,  0.5f, 0.f, 1.f,
+         0.5f, -0.5f,  0.5f, 0.f, 0.f,  1.f,  0.f,  0.f,
+         0.5f, -0.5f, -0.5f, 1.f, 0.f,  1.f,  0.f,  0.f,
+         0.5f,  0.5f, -0.5f, 1.f, 1.f,  1.f,  0.f,  0.f,
+         0.5f,  0.5f,  0.5f, 0.f, 1.f,  1.f,  0.f,  0.f,
 
-        -0.5f,  0.5f,  0.5f, 0.f, 0.f,
-         0.5f,  0.5f,  0.5f, 1.f, 0.f,
-         0.5f,  0.5f, -0.5f, 1.f, 1.f,
-        -0.5f,  0.5f, -0.5f, 0.f, 1.f,
+        -0.5f,  0.5f,  0.5f, 0.f, 0.f,  0.f,  1.f,  0.f,
+         0.5f,  0.5f,  0.5f, 1.f, 0.f,  0.f,  1.f,  0.f,
+         0.5f,  0.5f, -0.5f, 1.f, 1.f,  0.f,  1.f,  0.f,
+        -0.5f,  0.5f, -0.5f, 0.f, 1.f,  0.f,  1.f,  0.f,
 
-        -0.5f, -0.5f, -0.5f, 0.f, 0.f,
-         0.5f, -0.5f, -0.5f, 1.f, 0.f,
-         0.5f, -0.5f,  0.5f, 1.f, 1.f,
-        -0.5f, -0.5f,  0.5f, 0.f, 1.f
+        -0.5f, -0.5f, -0.5f, 0.f, 0.f,  0.f, -1.f,  0.f,
+         0.5f, -0.5f, -0.5f, 1.f, 0.f,  0.f, -1.f,  0.f,
+         0.5f, -0.5f,  0.5f, 1.f, 1.f,  0.f, -1.f,  0.f,
+        -0.5f, -0.5f,  0.5f, 0.f, 1.f,  0.f, -1.f,  0.f
     };
 
     m_indices = {
@@ -162,8 +164,10 @@ Cube::Cube(const std::string& shd, const glm::vec3& clr,
 
     VertexAttribute position(0, 3, GL_FLOAT, GL_FALSE);
     VertexAttribute texCoords(1, 2, GL_FLOAT, GL_FALSE);
+    VertexAttribute normals(2, 3, GL_FLOAT, GL_FALSE);
     m_vao.pushAttribute(position);
     m_vao.pushAttribute(texCoords);
+    m_vao.pushAttribute(normals);
 
     m_vao.setPointers();
 
@@ -174,7 +178,9 @@ Cube::Cube(const std::string& shd, const glm::vec3& clr,
 
     m_shd = *new Shader(shd);
     m_shd.bind();
-    m_shd.setUniform4f("uColor", clr.x, clr.y, clr.z, 1.f);
+    m_shd.setUniform3f("uColor", clr.x, clr.y, clr.z);
+
+    m_color = clr;
 }
 
 Cube::~Cube()

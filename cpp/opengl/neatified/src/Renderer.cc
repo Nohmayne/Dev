@@ -43,9 +43,9 @@ void Renderer::draw(const VertexArray& vao, const ElementBuffer& ebo, const Shad
 void Renderer::draw(Object* obj)
 {
     obj->bindAll();
-    obj->setShaderMVP(glm::perspective(glm::radians(m_sceneCamera->getFOV()), m_aspectRatio, 0.1f, 100.f)
-            * m_sceneCamera->getViewMatrix()
-            * obj->getModelMatrix());
+    obj->setShaderMVP(obj->getModelMatrix(),
+            m_sceneCamera->getViewMatrix(),
+            glm::perspective(glm::radians(m_sceneCamera->getFOV()), m_aspectRatio, 0.1f, 100.f));
 
     glDrawElements(GL_TRIANGLES, obj->getEBO().getCount(), GL_UNSIGNED_INT, 0);
 }

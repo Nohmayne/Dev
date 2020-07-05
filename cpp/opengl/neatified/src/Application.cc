@@ -1,5 +1,7 @@
 #include "Manager.hh"
 #include "objects/Cube.hh"
+#include "objects/Plane.hh"
+#include <GLFW/glfw3.h>
 
 int main(void)
 {
@@ -15,18 +17,19 @@ int main(void)
     m.setSceneCamera(cam);
     m.setAspectRatio(1.f * wm.getWidth() / wm.getHeight());
 
-    Cube* lightSource = new Cube("src/objects/Object_color.glsl", glm::vec3(1.f, 1.f, 1.f));
-    lightSource->translate({0.75f, 1.5f, 1.f});
+    Cube* lightSource = new Cube(OBJECT_COLOR_UNLIT, glm::vec3(1.f, 1.f, 1.f));
+    // lightSource->translate({0.75f, 1.f, 1.5f});
+    lightSource->translate({0.f, 1.5f, 0.f});
     lightSource->scale({0.1f, 0.1f, 0.1f});
 
-    Cube* cb = new Cube("src/objects/Object_color_lit.glsl", glm::vec3(1.f, 0.3f, 0.3f));
+    Cube* cb = new Cube(OBJECT_COLOR_LIT, glm::vec3(1.f, 0.3f, 0.3f));
 
     cb->bindAll();
     cb->getSHD().setUniform3f("lightColor", lightSource->getColor());
     cb->getSHD().setUniform3f("lightPos", lightSource->getPosition());
     cb->getSHD().setUniform3f("viewPos", cam->getPosition());
 
-    Plane* pl = new Plane("src/objects/Object_color_lit.glsl", glm::vec3(0.25f, 0.25f, 0.25f));
+    Plane* pl = new Plane(OBJECT_COLOR_LIT, glm::vec3(0.25f, 0.25f, 0.25f));
     pl->translate({0.f, -0.75f, 0.f});
     pl->rotate({-90.f, 1.f, 0.f, 0.f});
     pl->scale({10.f, 10.f, 1.f});
@@ -36,17 +39,26 @@ int main(void)
     pl->getSHD().setUniform3f("lightPos", lightSource->getPosition());
     pl->getSHD().setUniform3f("viewPos", cam->getPosition());
 
+    float lastX = 0.f;
+    float lastZ = 0.f;
+
     while (!wm.shouldClose())
     {
 	wm.processInput();
 
 	rnd.clear();
 
+        lightSource->translate({sin(glfwGetTime()) * 2.f - lastX, 0.f, cos(glfwGetTime()) * 2.f - lastZ});
+        lastX = sin(glfwGetTime()) * 2.f;
+        lastZ = cos(glfwGetTime()) * 2.f;
+
         cb->bindAll();
         cb->getSHD().setUniform3f("viewPos", cam->getPosition());
+        cb->getSHD().setUniform3f("lightPos", lightSource->getPosition());
 
         pl->bindAll();
         pl->getSHD().setUniform3f("viewPos", cam->getPosition());
+        pl->getSHD().setUniform3f("lightPos", lightSource->getPosition());
 
         rnd.draw(cb);
         rnd.draw(lightSource);

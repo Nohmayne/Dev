@@ -4,14 +4,16 @@ Object::Object() :
     m_vbo(0, 0), m_ebo(0, 0), m_shd(""), m_tex("")
 {
     m_model = *new glm::mat4(1.0f);
+
 }
 
 void Object::translate(const glm::vec3& translation)
 {
-    m_model = glm::translate(m_model, translation);
+    m_model = glm::translate(m_model, translation / m_scale);
     m_position += translation;
 }
 
+// TODO: Implement storage of rotation
 void Object::rotate(const glm::vec4& rotation)
 {
     m_model = glm::rotate(m_model, glm::radians(rotation.x),

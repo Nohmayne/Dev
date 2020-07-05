@@ -1,7 +1,7 @@
 #include "Cube.hh"
 #include <iostream>
 
-Cube::Cube(const std::string& shd, const std::string& tex,
+Cube::Cube(unsigned int type, const std::string& tex,
         glm::vec3 pos, glm::vec4 rot, glm::vec3 scl)
 {
     m_model = *new glm::mat4(1.f);
@@ -85,14 +85,20 @@ Cube::Cube(const std::string& shd, const std::string& tex,
             glm::vec3(m_rotation.y, m_rotation.z, m_rotation.w));
     m_model = glm::scale(m_model, m_scale);
 
-    m_shd = *new Shader(shd);
+    if (type == OBJECT_TEXTURE_LIT)
+        m_shd = *new Shader("src/objects/Object_texture_lit.glsl");
+    else if (type == OBJECT_TEXTURE_UNLIT)
+        m_shd = *new Shader("src/objects/Object_texture.glsl");
+    else
+        std::cerr << "Error: Invalid type in object constructor" << std::endl;
+
     m_shd.bind();
 
     m_tex = *new Texture(tex);
     m_tex.bind();
 }
 
-Cube::Cube(const std::string& shd, const glm::vec3& clr,
+Cube::Cube(unsigned int type, const glm::vec3& clr,
         glm::vec3 pos, glm::vec4 rot, glm::vec3 scl)
 {
     m_model = *new glm::mat4(1.f);
@@ -176,7 +182,12 @@ Cube::Cube(const std::string& shd, const glm::vec3& clr,
             glm::vec3(m_rotation.y, m_rotation.z, m_rotation.w));
     m_model = glm::scale(m_model, m_scale);
 
-    m_shd = *new Shader(shd);
+    if (type == OBJECT_COLOR_LIT)
+        m_shd = *new Shader("src/objects/Object_color_lit.glsl");
+    else if (type == OBJECT_COLOR_UNLIT)
+        m_shd = *new Shader("src/objects/Object_color.glsl");
+    else
+        std::cerr << "Error: Invalid type in object constructor" << std::endl;
     m_shd.bind();
     m_shd.setUniform3f("uColor", clr.x, clr.y, clr.z);
 

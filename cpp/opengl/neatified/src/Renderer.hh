@@ -5,7 +5,6 @@
 #include <iostream>
 
 #include "objects/Object.hh"
-#include "objects/Plane.hh"
 #include "objects/Camera.hh"
 
 class Renderer

@@ -10,7 +10,7 @@ html, body {
 
 #title {
 	color: crimson;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Major Mono Display', monospace;
 }
 
 .nav {
@@ -48,7 +48,6 @@ html, body {
 	padding: 0px;
 	list-style-position: inside;
 	list-style-type: "|-  ";
-	
 }
 
 a {

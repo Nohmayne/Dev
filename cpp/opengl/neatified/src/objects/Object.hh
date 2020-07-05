@@ -1,6 +1,11 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#define OBJECT_COLOR_UNLIT   0
+#define OBJECT_COLOR_LIT     1
+#define OBJECT_TEXTURE_UNLIT 2
+#define OBJECT_TEXTURE_LIT   3
+
 #include "../VertexArray.hh"
 #include "../VertexBuffer.hh"
 #include "../ElementBuffer.hh"
@@ -19,6 +24,10 @@ class Object
         inline glm::vec3& getPosition() { return m_position; }
         inline glm::vec4& getRotation() { return m_rotation; }
         inline glm::vec3& getScale() { return m_scale; }
+
+        // void setPosition(const glm::vec3& position);
+        // void setRotation(const glm::vec4& rotation);
+        // void setScale(const glm::vec3& scale);
 
         inline glm::mat4 getModelMatrix() { return m_model; }
 

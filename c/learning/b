@@ -1,0 +1,5 @@
+#!/bin/sh
+
+COMPILE_FLAGS="-g -Wall -Wextra -Os"
+gcc $COMPILE_FLAGS -o a.out src/*.c\
+    && gdb a.out

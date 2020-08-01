@@ -1,0 +1,5 @@
+#!/bin/sh
+
+clear
+g++ -o main src/*.cc -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+./main

@@ -1,3 +1,4 @@
 #!/bin/sh
 
-g++ -Wall -g src/*.cc -lncurses -o main && gdb main
+clear
+g++ -Wall -g src/*.cc -lncurses -o main && ./main

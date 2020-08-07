@@ -8,15 +8,17 @@ class Tile
 {
     public:
         // Creates a tile with the designated title. Description is optional.
-        Tile(std::string title, std::string desc = "");
+        Tile(const std::string &title, const std::string &desc = "");
 
-        inline std::string& getTitle() { return m_title; }
-        inline std::string& getDesc() { return m_desc; }
+        // Returns the title of the tile.
+        inline std::string getTitle() { return m_title; }
+        // Returns the description of the tile.
+        inline std::string getDesc() { return m_desc; }
 
         // Sets the title of the tile.
-        void setTitle(std::string title);
+        void setTitle(const std::string &title);
         // Sets the description of the tile.
-        void setDesc(std::string desc);
+        void setDesc(const std::string &desc);
     private:
         std::string m_title;
         std::string m_desc;
